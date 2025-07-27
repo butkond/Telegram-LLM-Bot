@@ -1,11 +1,14 @@
 import asyncio
+import logging
 import os
 
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command, CommandStart
 from aiogram.types import Message
-from loguru import logger
 from openai import OpenAI
+
+# Настройка логирования
+logging.basicConfig(level=logging.INFO)
 
 # Получение токена Telegram из переменной окружения
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
@@ -52,7 +55,7 @@ async def get_llm_response(prompt, user_id):
         user_contexts[user_id] = user_contexts[user_id][-5:]
         return response_text
     except Exception as e:
-        logger.error(f"Ошибка при запросе к LLM: {e}")
+        logging.error(f"Ошибка при запросе к LLM: {e}")
         return "Произошла ошибка при обработке запроса. Попробуйте позже."
 
 
